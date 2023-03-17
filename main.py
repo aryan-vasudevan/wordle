@@ -1,4 +1,5 @@
 import random
+import sys
 from termcolor import colored
 
 # Get the answer words
@@ -19,9 +20,15 @@ def word():
 def new_guess():
     guess = input(colored("Type a valid 5 letter word: ", "blue"))
 
-    while guess not in allowed_word_list or len(guess) != 5:
-        print(colored("Sorry, that's invalid; Word must be valid and 5 characters", "red"))
-        new_guess()
+    # To quit the game
+    if guess == "quit":
+        sys.exit()
+        
+    # Check if it is a valid guess
+    else:
+        while guess not in allowed_word_list or len(guess) != 5:
+            print(colored("Sorry, that's invalid; Word must be valid and 5 characters", "red"))
+            new_guess()
 
     return guess
 
@@ -37,7 +44,8 @@ while guess != ans and guess_number < 6:
 
     # Validate the guess and make it a win if it is correct
     if guess == ans:
-        print(colored(guess, "green"), "\n Correct! The word was ", colored(guess, "green"))   
+        print(colored(guess, "green"), "\nCorrect! The word was", colored(guess, "green"))
+        sys.exit()   
     else:
         for c in range(5):
             if guess[c] == ans[c]:
