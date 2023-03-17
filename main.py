@@ -25,10 +25,9 @@ def new_guess():
         sys.exit()
         
     # Check if it is a valid guess
-    else:
-        while guess not in allowed_word_list or len(guess) != 5:
-            print(colored("Sorry, that's invalid; Word must be valid and 5 characters", "red"))
-            new_guess()
+    elif guess not in allowed_word_list or len(guess) != 5:
+        print(colored("Sorry, that's invalid; Word must be valid and 5 characters", "red"))
+        new_guess()
 
     return guess
 
