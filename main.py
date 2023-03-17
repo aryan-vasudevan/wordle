@@ -23,13 +23,17 @@ def new_guess():
     # To quit the game
     if guess == "quit":
         sys.exit()
+    
+    if guess == "reveal":
+        print(ans)
+        sys.exit()
         
     # Check if it is a valid guess
-    elif guess not in allowed_word_list or len(guess) != 5:
+    if guess not in allowed_word_list or len(guess) != 5:
         print(colored("Sorry, that's invalid; Word must be valid and 5 characters", "red"))
         new_guess()
-
-    return guess
+    else:
+        return guess
 
 guess = ""
 guess_number = 0
@@ -40,6 +44,7 @@ while guess != ans and guess_number < 6:
     # Make a guess and increase the guess number
     guess = new_guess()
     guess_number += 1
+    rep_char = {}
 
     # Validate the guess and make it a win if it is correct
     if guess == ans:
@@ -47,13 +52,22 @@ while guess != ans and guess_number < 6:
         sys.exit()   
     else:
         for c in range(5):
-            if guess[c] == ans[c]:
-                color = "green"
-            elif guess[c] in ans:
-                color = "yellow"
+            if guess[c] in ans:
+                if guess[c] == ans[c]:
+                    color = "green"
+                elif guess.count(guess[c]) == ans.count(guess[c]) or guess.count(guess[c]) < ans.count(guess[c]):
+                    color = "yellow"
+                elif guess.count(guess[c]) > ans.count(guess[c]):
+                    if guess[c] in rep_char:
+                        rep_char[guess[c]] += 1
+                    else:
+                        rep_char[guess[c]] = 1
+                    
+                    if ans.count(guess[c]) < rep_char[guess[c]]:
+                        color = "yellow"
+
             else:
                 color = "dark_grey"
-
             # Printing each character on the same line
             if c == 4:
                 ending = "\n"
